@@ -14,4 +14,4 @@ Download the latest decks in the [GitHub releases](../../releases/latest) sectio
 
 ## View the demos
 
-Demos are located in the [Demos](/demos) directory.
+Demos are located in the [Demos](/Demos/Introduction%20to%20Azure%20Pipelines) directory.
