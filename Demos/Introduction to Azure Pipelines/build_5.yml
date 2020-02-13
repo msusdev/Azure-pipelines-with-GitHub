@@ -1,0 +1,14 @@
+stages:
+- stage: continuous_integration
+  displayName: Continuous Integration
+  jobs:
+  - job: build
+    displayName: Build
+    steps:
+    - script: dotnet build
+      displayName: Build .NET Core Project
+  - job: test
+    displayName: Test
+    steps:
+    - script: dotnet test
+      displayName: Test .NET Core Project

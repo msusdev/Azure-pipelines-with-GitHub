@@ -1,0 +1,11 @@
+steps:
+- script: dotnet build
+  displayName: Build .NET Core Project
+- script: dotnet test
+  displayName: Test .NET Core Project
+- script: dotnet publish --configuration Release --output out --self-contained --runtime win-x64 /p:PublishSingleFile=true
+  displayName: Publish .NET Core Project
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: out
+    ArtifactName: build

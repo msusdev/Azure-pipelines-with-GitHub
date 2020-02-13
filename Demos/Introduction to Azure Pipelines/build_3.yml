@@ -1,0 +1,11 @@
+stages:
+- stage: continuous_integration
+  displayName: Continuous Integration
+  jobs:
+  - job: build
+    displayName: Build
+    steps:
+    - script: dotnet restore
+      displayName: Restore NuGet Packages
+    - script: dotnet build
+      displayName: Build .NET Core Project
