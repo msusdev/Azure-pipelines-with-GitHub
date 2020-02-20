@@ -1,0 +1,33 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - readme.md
+pr:
+- master
+pool:
+  vmImage: ubuntu-latest
+container: mcr.microsoft.com/dotnet/core/sdk:3.1
+steps:
+- script: dotnet build
+  workingDirectory: ./app/
+  displayName: Build application
+- script: dotnet test
+  workingDirectory: ./app.tests/
+  displayName: Run unit tests
+- script: dotnet publish --configuration Release --output out/win --self-contained --runtime win-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
+  workingDirectory: ./app/
+  displayName: Publish Windows application
+- script: dotnet publish --configuration Release --output out/linux --self-contained --runtime linux-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
+  workingDirectory: ./app/
+  displayName: Publish Linux application
+- script: dotnet publish --configuration Release --output out/macos --self-contained --runtime osx-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
+  workingDirectory: ./app/
+  displayName: Publish MacOS application
+- task: PublishBuildArtifacts@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    pathtoPublish: 'app/out'
+    artifactName: 'distributions'
