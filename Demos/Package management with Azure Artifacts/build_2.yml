@@ -1,0 +1,25 @@
+jobs:
+- job: push_nuget
+  displayName: Push to NuGet
+  steps:
+  - script: echo Hello, world!
+    displayName: Run a one-line script
+    steps:
+    - task: DotNetCoreCLI@2
+        displayName: Package Projects
+        inputs:
+          command: pack
+          outputDir: $(Build.ArtifactStagingDirectory)
+    - task: PublishBuildArtifacts@1
+        displayName: Publish Package Artifacts
+        inputs:
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: packages
+    - task: NuGetCommand@2
+        displayName: Push Console Application to NuGet
+        inputs:
+          command: push
+          packagesToPush: $(Build.ArtifactStagingDirectory)/**/*.nupkg
+          nuGetFeedType: internal
+          publishVstsFeed: 00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000
+          allowPackageConflicts: true
