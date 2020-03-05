@@ -4,9 +4,3 @@ jobs:
   steps:
   - script: echo Hello, world!
     displayName: Run a one-line script
-    steps:
-    - task: DotNetCoreCLI@2
-        displayName: Package Projects
-        inputs:
-          command: pack
-          outputDir: $(Build.ArtifactStagingDirectory)
